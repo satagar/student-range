@@ -4,10 +4,11 @@ const key = require('../configs/scretKey')
 const jwt = require('jsonwebtoken')
 const fakeData = require('../seeders/user.seeder')
 const {
-    sigup
+    signup
 } = require('../helpers/user.helper')
+
 exports.sigup = async (req, res) => {
-    if (!sigup.isValiedBody(req.body)) {
+    if (!signup.isValidBody(req.body)) {
         return res.status(404).send({
             message: "Please Provide name , email , password ,location!"
         })

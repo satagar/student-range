@@ -75,6 +75,20 @@ exports.filter = async (req,res) =>{
     if(req.query.name){
         find.name = {$regex:req.query.name}
     }
+    const latitude = req.query.latitude;
+    const longitude = req.query.longitude
+    if( latitude && longitude){
+        find.location = {
+            $near:{
+                $geometry:{
+                    type:"point",
+                    coordinates:[latitude,longitude]
+                },
+                $maxDistance:10
+            }
+        }
+    }
+
     try{
            const finded = await userModel.find(find);
            return res.status(200).send({
@@ -92,4 +106,4 @@ const createFakeData =async  (data)=>{
             await userModel.create(data[i]);
          }
 }
-createFakeData(fakeData.userData)
+// createFakeData(fakeData.userData)

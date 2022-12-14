@@ -17,12 +17,12 @@ exports.sigup = async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 9),
-        location:req.body.location
+        location: req.body.location
     };
-    if(req.body.city){
+    if (req.body.city) {
         data.city = req.body.city
     }
-    if(req.body.country){
+    if (req.body.country) {
         data.country = req.body.country
     }
     try {
@@ -38,116 +38,126 @@ exports.sigup = async (req, res) => {
     }
 }
 exports.login = async (req, res) => {
-     const data = req.body;
-     try{
-        const user = await userModel.findOne({email:data.email});
-        if(!user){
+    const data = req.body;
+    try {
+        const user = await userModel.findOne({
+            email: data.email
+        });
+        if (!user) {
             return res.status(404).send({
-                message:"user does not exists!"
+                message: "user does not exists!"
             })
         }
-        const isValied = bcrypt.compareSync(data.password,user.password);
-        if(!isValied){
+        const isValied = bcrypt.compareSync(data.password, user.password);
+        if (!isValied) {
             return res.status(401).send({
-                message:"login failed due to invalied password"
+                message: "login failed due to invalied password"
             })
         }
-        const token  = jwt.sign({userId:user.userId},key.scretKey,{
-            expiresIn:'1d'
+        const token = jwt.sign({
+            userId: user.userId
+        }, key.scretKey, {
+            expiresIn: '1d'
         })
         return res.status(401).send({
-            message:"login successfully",
-            userId:user.userId,
-            accessToken:token
+            message: "login successfully",
+            userId: user.userId,
+            accessToken: token
         })
-     }catch(err){
+    } catch (err) {
         console.log(err.message)
         return res.status(500).send({
-            message:"Internal server error!"
+            message: "Internal server error!"
         })
-     }
+    }
 }
-exports.filter = async (req,res) =>{
+exports.filter = async (req, res) => {
     const find = {};
-   if(req.query.id){
-    find._id = req.query.id
-   }
-    if(req.query.name){
-        find.name = {$regex:req.query.name}
+    if (req.query.id) {
+        find._id = req.query.id
+    }
+    if (req.query.name) {
+        find.name = {
+            $regex: req.query.name
+        }
     }
     const latitude = req.query.latitude;
-    const longitude = req.query.longitude
-    if( latitude && longitude){
+    const longitude = req.query.longitude;
+    if (latitude && longitude) {
         find.location = {
-            $near:{
-                $geometry:{
-                    type:"Point",
-                    coordinates:[longitude,latitude]
+            $near: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [longitude, latitude]
                 },
-                $maxDistance:10
+                $minDistance: 0.10
             }
         }
     }
 
-    try{
-           const finded = await userModel.find(find);
-           return res.status(200).send({
-             users:finded
-           })
-    }catch(err){
+    try {
+        const finded = await userModel.find(find);
+        return res.status(200).send({
+            users: finded
+        })
+    } catch (err) {
         console.log(err.message)
         return res.status(500).send({
-            message:"internal server error!"
+            message: "internal server error!"
         })
     }
 }
-exports.update = async (req,res)=>{
-    const body = req.body  
-    try{
-        const user = await userModel.findOne({userId:req.userId})
-        if(body.name){
+exports.update = async (req, res) => {
+    const body = req.body
+    try {
+        const user = await userModel.findOne({
+            userId: req.userId
+        })
+        if (body.name) {
             user.name = body.name
         }
-        if(body.city){
+        if (body.city) {
             user.city = body.city
         }
-        if(body.country){
+        if (body.country) {
             user.country = body.country
         }
-        if(body.state){
+        if (body.state) {
             user.state = body.state
         }
-        if(body.location){
+        if (body.location) {
             user.location = body.location
         }
         await user.save()
         return res.status(201).send({
-            message:"user update successfully!"
+            message: "user update successfully!"
         })
-    }catch(err){
+    } catch (err) {
         console.log(err.message)
         return res.status(500).send({
-            message:"Internal server error!"
+            message: "Internal server error!"
         })
     }
 }
-exports.delete = async (req,res)=>{
-       try{
-                 const deleted = await userModel.findOneAndDelete({userId:req.userId});
-                 return res.status(201).send({
-                    message:"user delete successfully!",
-                    deleted_User : deleted
-                })
-       }catch(err){
+exports.delete = async (req, res) => {
+    try {
+        const deleted = await userModel.findOneAndDelete({
+            userId: req.userId
+        });
+        return res.status(201).send({
+            message: "user delete successfully!",
+            deleted_User: deleted
+        })
+    } catch (err) {
         console.log(err.message)
         return res.status(500).send({
-            message:"Internal server error!"
+            message: "Internal server error!"
         })
-       }
+    }
 }
-const createFakeData =async  (data)=>{
-         for(let i=0;i<data.length;i++){
-            await userModel.create(data[i]);
-         }
+const createFakeData = async (data) => {
+    for (let i = 0; i < data.length; i++) {
+        await userModel.create(data[i]);
+    }
 }
-createFakeData(fakeData.userData)
+// createFakeData(fakeData.userData)

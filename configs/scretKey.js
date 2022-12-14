@@ -1,0 +1,1 @@
+exports.scretKey = '<Student-range-app-7854454>'

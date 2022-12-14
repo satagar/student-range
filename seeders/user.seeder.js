@@ -8,7 +8,7 @@ exports.userData = [
         "country":"india",
         "state":"delhi",
         "location":{
-            "type":"point",
+            "type":"Point",
             "coordinates":[ -150.5,99.7]
         }
     },
@@ -21,7 +21,7 @@ exports.userData = [
         "country":"india",
         "state":"bihar",
         "location":{
-            "type":"point",
+            "type":"Point",
             "coordinates":[ -954.545,25.7]
         }
     },
@@ -34,7 +34,7 @@ exports.userData = [
         "country":"india",
         "state":"uk",
         "location":{
-            "type":"point",
+            "type":"Point",
             "coordinates":[ 787.545,878.7]
         }
     },
@@ -47,7 +47,7 @@ exports.userData = [
         "country":"india",
         "state":"panjab",
         "location":{
-            "type":"point",
+            "type":"Point",
             "coordinates":[ 989.545,-78.7]
         }
     },
@@ -60,7 +60,7 @@ exports.userData = [
         "country":"india",
         "state":"up",
         "location":{
-            "type":"point",
+            "type":"Point",
             "coordinates":[ -100.545,-78.7]
         }
     }

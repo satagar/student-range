@@ -81,8 +81,8 @@ exports.filter = async (req,res) =>{
         find.location = {
             $near:{
                 $geometry:{
-                    type:"point",
-                    coordinates:[latitude,longitude]
+                    type:"Point",
+                    coordinates:[longitude,latitude]
                 },
                 $maxDistance:10
             }
@@ -95,12 +95,42 @@ exports.filter = async (req,res) =>{
              users:finded
            })
     }catch(err){
+        console.log(err.message)
         return res.status(500).send({
             message:"internal server error!"
         })
     }
 }
-
+exports.update = async (req,res)=>{
+    const body = req.body  
+    try{
+        const user = await userModel.findOne({userId:req.userId})
+        if(body.name){
+            user.name = body.name
+        }
+        if(body.city){
+            user.city = body.city
+        }
+        if(body.country){
+            user.country = body.country
+        }
+        if(body.state){
+            user.state = body.state
+        }
+        if(body.location){
+            user.location = body.location
+        }
+        await user.save()
+        return res.status(201).send({
+            message:"user update successfully!"
+        })
+    }catch(err){
+        console.log(err.message)
+        return res.status(500).send({
+            message:"Internal server error!"
+        })
+    }
+}
 const createFakeData =async  (data)=>{
          for(let i=0;i<data.length;i++){
             await userModel.create(data[i]);

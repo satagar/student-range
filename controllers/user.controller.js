@@ -131,9 +131,23 @@ exports.update = async (req,res)=>{
         })
     }
 }
+exports.delete = async (req,res)=>{
+       try{
+                 const deleted = await userModel.findOneAndDelete({userId:req.userId});
+                 return res.status(201).send({
+                    message:"user delete successfully!",
+                    deleted_User : deleted
+                })
+       }catch(err){
+        console.log(err.message)
+        return res.status(500).send({
+            message:"Internal server error!"
+        })
+       }
+}
 const createFakeData =async  (data)=>{
          for(let i=0;i<data.length;i++){
             await userModel.create(data[i]);
          }
 }
-// createFakeData(fakeData.userData)
+createFakeData(fakeData.userData)

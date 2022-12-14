@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const pointSchema = require('./location.model')
+const pointSchema = require('./poinSchema')
 const userSchema = new mongoose.Schema({
     userId:{
         type:String,

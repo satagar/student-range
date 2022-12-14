@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const pointSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['Point'],
+        enum: ['point'],
         required: true
       },
       coordinates: {

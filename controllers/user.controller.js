@@ -2,6 +2,7 @@ const userModel = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const key = require('../configs/scretKey')
 const jwt = require('jsonwebtoken')
+const fakeData = require('../seeders/user.seeder')
 const {
     sigup
 } = require('../helpers/user.helper')
@@ -85,3 +86,10 @@ exports.filter = async (req,res) =>{
         })
     }
 }
+
+const createFakeData =async  (data)=>{
+         for(let i=0;i<data.length;i++){
+            await userModel.create(data[i]);
+         }
+}
+createFakeData(fakeData.userData)

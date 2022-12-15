@@ -2,7 +2,6 @@ const userModel = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const key = require('../configs/scretKey')
 const jwt = require('jsonwebtoken')
-const fakeData = require('../seeders/user.seeder')
 const {
     signup
 } = require('../helpers/user.helper')
@@ -60,7 +59,7 @@ exports.login = async (req, res) => {
         }, key.scretKey, {
             expiresIn: '1d'
         })
-        return res.status(401).send({
+        return res.status(200).send({
             message: "login successfully",
             userId: user.userId,
             accessToken: token
@@ -140,7 +139,7 @@ exports.update = async (req, res) => {
         })
     }
 }
-exports.delete = async (req, res) => {
+exports.deletes = async (req, res) => {
     try {
         const deleted = await userModel.findOneAndDelete({
             userId: req.userId
@@ -156,9 +155,3 @@ exports.delete = async (req, res) => {
         })
     }
 }
-const createFakeData = async (data) => {
-    for (let i = 0; i < data.length; i++) {
-        await userModel.create(data[i]);
-    }
-}
-// createFakeData(fakeData.userData)

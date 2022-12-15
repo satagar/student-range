@@ -11,6 +11,6 @@ route.post('/login', userController.login);
 //---------------------------------------user find -------------------------------
 route.get('/user/filter', isValieduser, userController.filter);
 route.put('/user/update', isValieduser, userController.update)
-route.delete('/user/delete', isValieduser, userController.delete)
+route.delete('/user/delete', isValieduser, userController.deletes)
 
 module.exports = route;

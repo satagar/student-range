@@ -1,6 +1,6 @@
-const { builtinModules } = require('module')
 const mongoose = require('mongoose')
-mongoose.connect = ('mongodb://localhost:27017', { useUnifiedTopology: true, useNewUrlParser: true })
+const DB_URI = require('../configs/db.config')
+mongoose.connect = (process.env.DB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
 var conn = mongoose.connection
 
 conn.once('open', function () {

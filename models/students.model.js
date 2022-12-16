@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const DB = require('../connections/db.connection')
 
 const studentSchema = new mongoose.Schema({
     name: {
@@ -28,8 +29,11 @@ const pointSchema = new mongoose.Schema({
     },
     coordinates: {
         type: [Number],
-        required: true
+        required: true,
+        index: '2dsphere'
     }
 })
+
+
 
 module.exports = mongoose.model('student', studentSchema)

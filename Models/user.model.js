@@ -55,4 +55,6 @@ const user = new mongoose.Schema({
             return Date.now()
         }
     }
-})
+});
+
+module.exports = mongoose.model('User', user);
